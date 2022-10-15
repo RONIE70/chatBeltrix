@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Chatbot Instituto Beltran</title>
-
+    <link rel="shortcut icon" href="./img/beltrix2.png">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -44,7 +44,6 @@ session_start();
 include_once "./db/consultas.php";
 include_once "./funciones/menu.php";
 include_once "./funciones/palabraInapropiada.php";
-// include_once "./back/resetearAdvertensia.php";
 
 $estadoUsuario = '';
 if (isset($_SESSION['bloqueado']) && $_SESSION['bloqueado']) {
@@ -73,6 +72,13 @@ if (isset($_SESSION['bloqueado']) && $_SESSION['bloqueado']) {
         var imgAbrir = document.getElementById("Abrir");
         imgAbrir.hidden = true;
     }
+
+    function cerrarChat() {
+        var chat = document.getElementById("chatActivo");
+        chat.hidden = true;
+        var imgAbrir = document.getElementById("Abrir");
+        imgAbrir.hidden = false;
+    }
 </script>
 
 <div class="inicioChat" id="chatActivo" hidden=true>
@@ -84,10 +90,10 @@ if (isset($_SESSION['bloqueado']) && $_SESSION['bloqueado']) {
             </div>
         </div>
         <?php
-        if ($estadoUsuario != '') {
-            echo $estadoUsuario;
-        } else {
-            echo '<div id="cajaPrincipal">
+if ($estadoUsuario != '') {
+    echo $estadoUsuario;
+} else {
+    echo '<div id="cajaPrincipal">
             <div class="form">
                 <div class="bot-inbox inbox">
                     <div class="icon">
@@ -102,8 +108,11 @@ if (isset($_SESSION['bloqueado']) && $_SESSION['bloqueado']) {
 
                             <div class="options-wrapper">';
 
-            echo generarHtmlOpcionesMenu($opcionesMenu);
-            echo '           </div>
+    echo generarHtmlOpcionesMenu($opcionesMenu);
+    echo '<div class="option">
+        <a onclick="desloguearUsuario()" style="color:#FF0000; text-decoration: none " href="./back/logout.php">X  Cerrar  Sesión</a><br>
+        </div>
+        </div>
 
 
                             </form>
@@ -121,20 +130,35 @@ if (isset($_SESSION['bloqueado']) && $_SESSION['bloqueado']) {
                 </div>
 
                 <div class="boton">
-                    <a href="./back/logout.php">X</a>
+                    <a onclick="cerrarChat()">X</a>
                 </div>
             </div>';
-        }
-        ?>
+}
+?>
 
     </div>
 </div>
+<script>
+    function desloguearUsuario() {
+
+        localStorage.removeItem('imgUsuario');
+        localStorage.removeItem('estadoAdvertencia');
+    }
+</script>
+
 <script>
     $(document).ready(function() {
         $("#send-btn").on("click", function() {
 
             $value = $("#data").val();
-            $(".form").append('<div class="user-inbox inbox"><div class="icon"><img src="./img/usuarios.jpg" ></div><div class="msg-header"><p>' + $value + '</p></div>'); //$msg
+            imagenUsuario = '';
+            if (localStorage.getItem('imgUsuario')) {
+                imagenUsuario = localStorage.getItem('imgUsuario');
+            } else {
+                imagenUsuario = "./img/usuarios.jpg";
+            }
+
+            $(".form").append('<div class="user-inbox inbox"><div class="icon"><img id="usuarioLog" src="' + imagenUsuario + '" ></div><div class="msg-header"><p>' + $value + '</p></div>'); //$msg
             $("#data").val('');
 
             $.ajax({
@@ -168,6 +192,7 @@ if (isset($_SESSION['bloqueado']) && $_SESSION['bloqueado']) {
         });
     });
 </script>
+
 
 
 <script>

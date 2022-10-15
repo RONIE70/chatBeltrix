@@ -23,17 +23,19 @@ if (is_numeric($mensaje)) {
     if ($opcionesMenu) {
         $htmlOpcionesMenu = generarHtmlOpcionesMenu($opcionesMenu); // funciones/menu.php
         echo $htmlOpcionesMenu;
+        echo '<div class="option">
+        <a onclick="desloguearUsuario()" style="color:#FF0000; text-decoration: none " href="./back/logout.php">X Cerrar Sesión</a><br>
+        </div>';
         die();
     }
 
     //Si no se encontraron opciones se verifica si el valor ingresado corresponde a una opcion final
-    $idOpcionMenu = buscarIdOpcionMenu();//funciones menu
-    $opcionFinal="";
+    $idOpcionMenu = buscarIdOpcionMenu(); //funciones menu
+    $opcionFinal = "";
 
     if ($idOpcionMenu) {
-
+        
         $opcionFinal = obtenerOpcionFinal($idOpcionMenu[0]['idmenu']); // funciones/menu.php
-
     }
 
     if ($opcionFinal) {   // !==23
@@ -50,18 +52,17 @@ if (is_numeric($mensaje)) {
     $resultadoValidaPalabra = validarPalabraInapropiada($mensaje);
     //print_r($resultadoValidaPalabra);
     //mensaje.php
-    if($resultadoValidaPalabra){
+    if ($resultadoValidaPalabra) {
         $_SESSION['bloqueado'] = true;
         echo 'bloqueado';
-    }else{
+    } else {
         $resultadoLevenshtein = ejecutarLevenshtein($mensaje);
 
-    if ($resultadoLevenshtein) {
-         //mensaje.php
-        $htmlResultadoLevenshtein = generarHtmlResultadoLevenshtein($resultadoLevenshtein);
-        echo $htmlResultadoLevenshtein;
-    }
-    
+        if ($resultadoLevenshtein) {
+            //mensaje.php
+            $htmlResultadoLevenshtein = generarHtmlResultadoLevenshtein($resultadoLevenshtein);
+            echo $htmlResultadoLevenshtein;
+        }
     }
     return;
 }

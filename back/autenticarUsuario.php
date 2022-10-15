@@ -17,7 +17,7 @@ if ($usuarioLogin) {
     $_SESSION['usuario_foto'] = $usuarioLogin[0]['foto_usuario'];
 
     echo $usuarioLogin[0]['nombre'];
-    echo '<br><br><img class="profile-img" src="' . $usuarioLogin[0]['foto_usuario'] . '"
+    echo '<br><br><img id="imgUsuario" class="profile-img" src="' . $usuarioLogin[0]['foto_usuario'] . '"
             style="align-items:center;border-radius: 100px;max-width:50%;width:70px;height:70px;">';
 
     $ArraysResultante = TraerOpcionLogin();

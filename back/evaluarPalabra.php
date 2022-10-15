@@ -24,7 +24,7 @@ if ($resultadoOpcionEnMenu) {
         echo "" . $idInferior . "-" . $descripcion . "<br>";
     }
     $opcionesAMostrar = '';
-    $idSuperior='';
+    $idSuperior = '';
     if ($cantidad > 0) {
         $resultadoCantidadOpciones = "SELECT * from menuopciones
                   where idSuperior = $getMesg";
@@ -39,38 +39,20 @@ if ($resultadoOpcionEnMenu) {
                                     </div>
                                 ";
         }
-        $opcionesAMostrar .= "<div class='option'>
+        $opcionesAMostrar .= '<div class="option">
                                             0- Menú Principal
+        <br><div class="option">
+        <a onclick="desloguearUsuario()" style="color:#FF0000; text-decoration: none " href="./back/logout.php">X Cerrar Sesión</a><br>
+        
                                         </div>
-                                    </div>";
-                                    echo $opcionesAMostrar;
+                                    </div>';
+        echo $opcionesAMostrar;
     } else {
-        // $resultadoCantidadOpciones = "SELECT * from menuopciones
-        //           where idMenu = $getMesg";
-        // print_r($resultadoCantidadOpciones);
         $opcionesAMostrar = obtenerOpcionFinal($getMesg);
         echo $opcionesAMostrar[0]['opcionFinal'];
     }
 
-    // $opcionesMenu = ejecutarConsulta($resultadoCantidadOpciones);
-
-    // $opciones = "<div class='options-wrapper'>";
-    // foreach ($opcionesMenu as $opcion) {
-    //     $opciones .= "
-    //                                 <div class='option'>
-    //                                     $opcion[3] - $opcion[1]
-    //                                 </div>
-    //                             ";
-    // }
-    // $opciones .= "<div class='option'>
-    //                                         0- Volver Menú Principal
-    //                                     </div>
-    //                                 </div>";
-if($idSuperior){
-    actualizarIDsuperior($idSuperior);
-    
-}
-//print_r($opcionesAMostrar);
-
-
+    if ($idSuperior) {
+        actualizarIDsuperior($idSuperior);
+    }
 }

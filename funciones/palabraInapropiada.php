@@ -23,9 +23,4 @@ function generarHTMLBloqueo()
     return $html;
 }
 
-function generarHTMLadvertencia()
-{
-    $html = 'ADVERTENCIA<br>Uso de lenguaje inapropiado<br>Si fue una equivocaión<br>Comuniquese con Ayuda.<br>La próxima vez, será BLOQUEADO<br> 0- Volver Menú Principal';
-    return $html;
-}
 
